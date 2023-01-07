@@ -30,31 +30,49 @@ module.exports = function toReadable (number) {
     90: "ninety"
   };
   let result;
-  const numTeen = obj[(number.toString().split('')[0]) + 0] + ' ' + obj[number.toString().split('')[1]];
+  if (number < 20) {
 
-  if (number.toString().length === 2) {
-    if (number > 20 && number < 30 || number > 30 && number < 40 || number > 40 && number < 50 || number > 50 && number < 60 || number > 60 && number < 70 || number > 70 && number < 80 || number > 80 && number < 90 || number > 90 && number <= 99) {
-      return numTeen;
-    } else {
-      return obj[number];
-    }
-  } else if (number.toString().length === 3) {
-    let a;
-    const x = number.toString().slice(1);
+    result = obj[number];
 
-    if (x === '00') {
-      a = '';
-    } else if (x.toString().split('')[0] === '0') {
-      a = obj[x.toString().slice(1)];
-    } else if (x.toString().split('')[0] === '0' && x.toString().split('')[1] === '0') {
-      a = ' ';
-    } else if (x > 20 && x < 30 || x > 30 && x < 40 || x > 40 && x < 50 || x > 50 && x < 60 || x > 60 && x < 70 || x > 70 && x < 80 || x > 80 && x < 90 || x > 90 && x <= 99) {
-      a = obj[(x.toString().split('')[0]) + 0] + ' ' + obj[x.toString().split('')[1]];
+  } else if (number < 100) {
+
+    if (number.toString().slice(1) === '0') {
+
+      result = obj[number];
+
     } else {
-      a = obj[x];
+
+      result = obj[(number.toString().split('')[0]) + 0] + ' ' + obj[number.toString().split('')[1]];
+
     }
-    return (obj[(number.toString().split('')[0])] + ' ' + 'hundred' + ' ' + a).trim();
+  } else if (number < 1000) {
+
+    const sliceNum = number.toString().slice(1);
+
+    if (sliceNum.toString() === '00') {
+
+      result = obj[(number.toString().split('')[0])] + ' ' + 'hundred';
+
+    } else if (sliceNum.toString().split('')[0] === '0') {
+
+      result = obj[(number.toString().split('')[0])] + ' ' + 'hundred' + ' ' + (obj[sliceNum.toString().slice(1)]);
+
+    } else if (sliceNum.toString().split('')[1] === '0') {
+
+      result = obj[(number.toString().split('')[0])] + ' ' + 'hundred' + ' ' + (obj[sliceNum.toString()]);
+
+    } else {
+      
+      if (sliceNum < 20) {
+
+        result = obj[(number.toString().split('')[0])] + ' ' + 'hundred' + ' ' + obj[sliceNum];
+
+      } else {
+
+        result = obj[(number.toString().split('')[0])] + ' ' + 'hundred' + ' ' + (obj[(sliceNum.toString().split('')[0]) + 0] + ' ' + obj[sliceNum.toString().split('')[1]]);
+
+      }
+    }
   }
-  result = obj[number];
   return result;
 }
